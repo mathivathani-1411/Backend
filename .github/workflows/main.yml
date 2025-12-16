@@ -24,16 +24,17 @@ jobs:
             cd /home/ubuntu || exit 1
 
             if [ ! -d "Backend" ]; then
-              git clone https://github.com/mathivathani-1411/Backend.git
+              git clone -b main https://github.com/mathivathani-1411/Backend.git
             fi
 
             cd Backend || exit 1
-            git pull origin master
+            git pull origin main
 
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
             echo "PORT=5000" >> .env
 
             npm install
+
             pm2 delete student-api || true
             pm2 start server.js --name student-api
             pm2 save
